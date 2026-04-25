@@ -1,0 +1,18 @@
+# Build outputs
+nav-server
+nav-server.exe
+dist/
+build/
+
+# Runtime logs
+*.log
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/
+
+# Local-only config
+# Keep config.json tracked in this repo as a runnable demo.
+# If you use private/internal links, move them to config.local.json or stop tracking config.json.
+config.local.json

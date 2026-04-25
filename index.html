@@ -1,0 +1,325 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>站点导航</title>
+  <script src="./assets/vue.global.prod.js"></script>
+  <style>
+    :root {
+      --bg: #f5f1e8;
+      --ink: #191714;
+      --muted: #766f63;
+      --card: rgba(255, 252, 244, .82);
+      --line: rgba(25, 23, 20, .12);
+      --accent: #d3542f;
+      --accent-2: #1f6f65;
+      --shadow: 0 22px 70px rgba(42, 34, 24, .14);
+      --radius: 26px;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      min-height: 100vh;
+      color: var(--ink);
+      font-family: ui-serif, "Noto Serif SC", "Source Han Serif SC", Georgia, serif;
+      background:
+        radial-gradient(circle at 12% 12%, rgba(211, 84, 47, .18), transparent 28%),
+        radial-gradient(circle at 88% 18%, rgba(31, 111, 101, .17), transparent 30%),
+        linear-gradient(135deg, #fbf6eb 0%, var(--bg) 48%, #ede2cf 100%);
+      overflow-x: hidden;
+    }
+
+    body::before {
+      content: "";
+      position: fixed;
+      inset: 0;
+      pointer-events: none;
+      opacity: .18;
+      background-image:
+        linear-gradient(rgba(25,23,20,.06) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(25,23,20,.06) 1px, transparent 1px);
+      background-size: 42px 42px;
+      mask-image: linear-gradient(to bottom, #000, transparent 85%);
+    }
+
+    #app {
+      width: min(1120px, calc(100% - 32px));
+      margin: 0 auto;
+      padding: 54px 0 70px;
+    }
+
+    .hero {
+      position: relative;
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 32px;
+      align-items: end;
+      margin-bottom: 34px;
+    }
+
+    .brand {
+      width: 82px;
+      height: 82px;
+      border: 1px solid var(--line);
+      border-radius: 50%;
+      display: grid;
+      place-items: center;
+      background: rgba(255,255,255,.38);
+      backdrop-filter: blur(14px);
+      box-shadow: var(--shadow);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-weight: 800;
+      letter-spacing: -0.08em;
+      color: var(--accent);
+      transform: rotate(-7deg);
+    }
+
+    h1 {
+      margin: 0;
+      font-size: clamp(48px, 8vw, 112px);
+      line-height: .9;
+      letter-spacing: -0.075em;
+      font-weight: 900;
+    }
+
+    .subtitle {
+      max-width: 680px;
+      margin: 18px 0 0;
+      color: var(--muted);
+      font-size: 18px;
+      line-height: 1.8;
+    }
+
+    .toolbar {
+      display: flex;
+      gap: 12px;
+      margin: 26px 0 34px;
+    }
+
+    .search {
+      width: min(520px, 100%);
+      height: 52px;
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 0 22px;
+      outline: none;
+      background: rgba(255, 252, 244, .72);
+      backdrop-filter: blur(12px);
+      color: var(--ink);
+      font-size: 16px;
+      box-shadow: 0 12px 36px rgba(42,34,24,.08);
+    }
+
+    .search:focus {
+      border-color: rgba(211,84,47,.45);
+      box-shadow: 0 0 0 5px rgba(211,84,47,.12), 0 12px 36px rgba(42,34,24,.08);
+    }
+
+    .group {
+      margin-top: 28px;
+    }
+
+    .group-title {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin: 0 0 14px;
+      font-size: 18px;
+      letter-spacing: .12em;
+      color: var(--muted);
+    }
+
+    .group-title::before {
+      content: "";
+      width: 30px;
+      height: 30px;
+      flex: 0 0 30px;
+      border-radius: 12px;
+      border: 1px solid rgba(211, 84, 47, .22);
+      background:
+        url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='%23d3542f' stroke-width='2.2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M10 13a5 5 0 0 0 7.07 0l2.12-2.12a5 5 0 0 0-7.07-7.07L10.9 5.03'/%3E%3Cpath d='M14 11a5 5 0 0 0-7.07 0L4.81 13.12a5 5 0 0 0 7.07 7.07l1.22-1.22'/%3E%3C/svg%3E") center / 17px 17px no-repeat,
+        linear-gradient(135deg, rgba(211, 84, 47, .13), rgba(31, 111, 101, .08));
+      box-shadow: inset 0 1px 0 rgba(255,255,255,.58), 0 8px 22px rgba(42,34,24,.08);
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
+      gap: 16px;
+    }
+
+    .card {
+      position: relative;
+      display: block;
+      min-height: 146px;
+      padding: 22px;
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      color: inherit;
+      text-decoration: none;
+      background: var(--card);
+      backdrop-filter: blur(18px);
+      box-shadow: 0 12px 42px rgba(42,34,24,.08);
+      overflow: hidden;
+      transition: transform .28s ease, box-shadow .28s ease, border-color .28s ease;
+    }
+
+    .card::after {
+      content: "↗";
+      position: absolute;
+      right: 18px;
+      top: 14px;
+      color: var(--accent);
+      font-size: 22px;
+      opacity: .35;
+      transition: transform .28s ease, opacity .28s ease;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      inset: auto -30px -60px auto;
+      width: 130px;
+      height: 130px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(211,84,47,.18), transparent 68%);
+      transition: transform .35s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(211,84,47,.32);
+      box-shadow: 0 24px 70px rgba(42,34,24,.15);
+    }
+
+    .card:hover::after {
+      opacity: .9;
+      transform: translate(3px, -3px);
+    }
+
+    .card:hover::before {
+      transform: scale(1.25);
+    }
+
+    .card-name {
+      margin: 0;
+      padding-right: 34px;
+      font-size: 24px;
+      line-height: 1.15;
+      letter-spacing: -0.04em;
+    }
+
+    .card-desc {
+      margin: 14px 0 0;
+      color: var(--muted);
+      line-height: 1.65;
+      font-size: 14px;
+    }
+
+    .card-url {
+      position: absolute;
+      left: 22px;
+      right: 22px;
+      bottom: 18px;
+      color: rgba(25,23,20,.42);
+      font-family: ui-monospace, SFMono-Regular, Menlo, monospace;
+      font-size: 12px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .empty, .error {
+      padding: 30px;
+      border: 1px dashed var(--line);
+      border-radius: var(--radius);
+      background: rgba(255,255,255,.35);
+      color: var(--muted);
+    }
+
+    .error { color: #9f321c; }
+
+    @media (max-width: 720px) {
+      #app { padding-top: 32px; }
+      .hero { grid-template-columns: 1fr; }
+      .brand { width: 64px; height: 64px; }
+      .toolbar { margin-top: 18px; }
+      .card { min-height: 132px; }
+    }
+  </style>
+</head>
+<body>
+  <div id="app">
+    <section class="hero">
+      <div>
+        <h1>{{ config.site?.title || '站点导航' }}</h1>
+        <p class="subtitle">{{ config.site?.subtitle || '通过 config.json 动态维护网站名称和地址。' }}</p>
+      </div>
+      <div class="brand">{{ config.site?.brand || 'NAV' }}</div>
+    </section>
+
+    <div class="toolbar">
+      <input class="search" v-model="keyword" placeholder="搜索名称、描述或网址..." />
+    </div>
+
+    <div v-if="error" class="error">{{ error }}</div>
+    <template v-else>
+      <section v-for="group in filteredGroups" :key="group.name" class="group">
+        <h2 class="group-title">{{ group.name }}</h2>
+        <div class="grid">
+          <a v-for="item in group.items" :key="item.url" class="card" :href="item.url" target="_blank" rel="noopener noreferrer">
+            <h3 class="card-name">{{ item.name }}</h3>
+            <p v-if="item.desc" class="card-desc">{{ item.desc }}</p>
+            <div class="card-url">{{ item.url }}</div>
+          </a>
+        </div>
+      </section>
+      <div v-if="filteredGroups.length === 0" class="empty">没有匹配的网站。</div>
+    </template>
+  </div>
+
+  <script>
+    const { createApp, computed, onMounted, ref } = Vue;
+
+    createApp({
+      setup() {
+        const config = ref({ site: {}, groups: [] });
+        const keyword = ref('');
+        const error = ref('');
+
+        const filteredGroups = computed(() => {
+          const q = keyword.value.trim().toLowerCase();
+          const groups = config.value.groups || [];
+          if (!q) return groups.filter(g => (g.items || []).length);
+          return groups
+            .map(group => ({
+              ...group,
+              items: (group.items || []).filter(item => {
+                return [item.name, item.desc, item.url]
+                  .filter(Boolean)
+                  .some(text => String(text).toLowerCase().includes(q));
+              })
+            }))
+            .filter(group => group.items.length);
+        });
+
+        onMounted(async () => {
+          try {
+            const res = await fetch('./config.json', { cache: 'no-store' });
+            if (!res.ok) throw new Error(`配置文件加载失败：HTTP ${res.status}`);
+            config.value = await res.json();
+            document.title = config.value.site?.title || '站点导航';
+          } catch (e) {
+            error.value = e.message || '配置文件加载失败';
+          }
+        });
+
+        return { config, keyword, error, filteredGroups };
+      }
+    }).mount('#app');
+  </script>
+</body>
+</html>

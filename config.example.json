@@ -1,0 +1,88 @@
+{
+  "site": {
+    "title": "站点导航",
+    "subtitle": "常用公共网站入口，干净、快速、可配置",
+    "brand": "NAV"
+  },
+  "groups": [
+    {
+      "name": "搜索与资讯",
+      "items": [
+        {
+          "name": "百度",
+          "url": "https://www.baidu.com",
+          "desc": "中文搜索入口"
+        },
+        {
+          "name": "Bing",
+          "url": "https://www.bing.com",
+          "desc": "微软搜索与 AI 搜索入口"
+        },
+        {
+          "name": "知乎",
+          "url": "https://www.zhihu.com",
+          "desc": "问答社区与经验内容"
+        },
+        {
+          "name": "少数派",
+          "url": "https://sspai.com",
+          "desc": "效率工具、数码与生活方式内容"
+        }
+      ]
+    },
+    {
+      "name": "开发与文档",
+      "items": [
+        {
+          "name": "GitHub",
+          "url": "https://github.com",
+          "desc": "代码仓库与开源项目"
+        },
+        {
+          "name": "MDN Web Docs",
+          "url": "https://developer.mozilla.org",
+          "desc": "Web 前端开发文档"
+        },
+        {
+          "name": "Stack Overflow",
+          "url": "https://stackoverflow.com",
+          "desc": "程序开发问答社区"
+        },
+        {
+          "name": "Docker Hub",
+          "url": "https://hub.docker.com",
+          "desc": "容器镜像仓库"
+        }
+      ]
+    },
+    {
+      "name": "工具与效率",
+      "items": [
+        {
+          "name": "Cloudflare",
+          "url": "https://www.cloudflare.com",
+          "desc": "DNS、CDN 与网络安全服务"
+        },
+        {
+          "name": "Vercel",
+          "url": "https://vercel.com",
+          "desc": "前端部署与托管平台"
+        },
+        {
+          "name": "npm",
+          "url": "https://www.npmjs.com",
+          "desc": "Node.js 包管理与搜索"
+        },
+        {
+          "name": "Can I Use",
+          "url": "https://caniuse.com",
+          "desc": "浏览器兼容性查询"
+        }
+      ]
+    }
+  ],
+  "server": {
+    "host": "0.0.0.0",
+    "port": 21000
+  }
+}
